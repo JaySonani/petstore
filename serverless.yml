@@ -3,14 +3,62 @@ app: plasmatic-project
 service: plasmatic-project
 frameworkVersion: "3"
 
+# AWS Cloud Provider
 provider:
   name: aws
   runtime: nodejs16.x
 
+  # Setting environment variables
+  environment:
+    DYNAMODB_TABLE_PETS: ${self:service}-petsTable-${sls:stage}
+
+  # Granting permissions
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:Get*
+            - dynamodb:UpdateItem
+          Resource:
+            arn:aws:dynamodb:us-east-1:359996502019:table/plasmatic-project-petsTable-dev
+            # arn:aws:dynamodb:${aws.region}:${aws:accountId}:table/${self:service}-petsTable-${sls:stage}
+
+# API Endpoints
 functions:
-  hello:
-    handler: handler.hello
+  plasmatic:
+    handler: handler.plasmatic
     events:
       - httpApi:
           path: /
           method: get
+
+  addPet:
+    handler: lambdas/addPet.handler
+    events:
+      - httpApi:
+          path: /pet
+          method: post
+
+  updatePet:
+    handler: lambdas/updatePet.handler
+    events:
+      - httpApi:
+          path: /pet
+          method: put
+
+# Resource creation
+resources:
+  Resources:
+    PetTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-petsTable-${sls:stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH

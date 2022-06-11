@@ -1,12 +1,12 @@
 "use strict";
 
-module.exports.hello = async (event) => {
+module.exports.plasmatic = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: "Go Serverless v3.0! Your function executed successfully!",
-        input: event,
+        message: "Welcome to Plasmatic-serverless prject!",
+        purpose: "Jr Full Stack Interview project"
       },
       null,
       2
