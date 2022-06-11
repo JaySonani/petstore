@@ -7,7 +7,6 @@ module.exports.plasmatic = async (event) => {
       {
         message: "Welcome to Plasmatic-serverless prject!",
         purpose: "Jr Full Stack Interview project"
-        // input: event,
       },
       null,
       2

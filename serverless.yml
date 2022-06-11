@@ -35,14 +35,14 @@ functions:
           method: get
 
   addPet:
-    handler: petOperations.addPet
+    handler: lambdas/addPet.handler
     events:
       - httpApi:
           path: /pet
           method: post
 
   updatePet:
-    handler: petOperations.updatePet
+    handler: lambdas/updatePet.handler
     events:
       - httpApi:
           path: /pet
