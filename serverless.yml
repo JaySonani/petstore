@@ -63,6 +63,13 @@ functions:
           path: /pet/findByStatus
           method: get
 
+  findById:
+    handler: lambdas/findById.handler
+    events:
+      - httpApi:
+          path: /pet/{petId}
+          method: get
+
 # Resource creation
 resources:
   Resources:
@@ -84,6 +91,12 @@ resources:
           - IndexName: status-index
             KeySchema:
               - AttributeName: status
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: id-index
+            KeySchema:
+              - AttributeName: id
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
