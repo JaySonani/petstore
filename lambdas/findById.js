@@ -9,6 +9,7 @@ module.exports.handler = async (event) => {
     const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
     const petId = event.pathParameters.petId;
+
     if (!isNaN(petId)) {
         const findById = {
             TableName: process.env.DYNAMODB_TABLE_PETS,
