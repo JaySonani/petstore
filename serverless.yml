@@ -101,6 +101,13 @@ functions:
           path: /store/order/{orderId}
           method: get
 
+  deleteOrder:
+    handler: lambdas/store/deleteOrder.handler
+    events:
+      - httpApi:
+          path: /store/order/{orderId}
+          method: delete
+
 # Resource creation
 resources:
   Resources:
