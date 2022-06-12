@@ -1,15 +1,12 @@
 const AWS = require('aws-sdk')
-const Responses = require('./Responses')
-
+const Response = require('./../Response')
+const Constants = require('./../Contants')
 
 module.exports.handler = async (event) => {
 
-    let response;
-
-    const dynamoDb = new AWS.DynamoDB.DocumentClient();
-
     if (event.queryStringParameters !== undefined && event.queryStringParameters.status !== undefined) {
 
+        const dynamoDb = new AWS.DynamoDB.DocumentClient();
         const status = event.queryStringParameters.status;
 
         const findByStatus = {
@@ -23,21 +20,13 @@ module.exports.handler = async (event) => {
         }
 
         const res = await dynamoDb.query(findByStatus).promise();
-        response = Responses.createResponse(200, res.Items || [])
-
-        // response = Responses.createResponse(200, {
-        //     "ha": "moj"
-        // })
-
+        return Response.createResponse(200, res.Items || []);
 
     } else {
-        response = Responses.createResponse(400, {
-            message: "Status is required"
-        })
+
+        return Response.createResponse(400, {
+            message: Constants.STATUS_IS_REQUIRED
+        });
 
     }
-
-
-
-    return response;
 }

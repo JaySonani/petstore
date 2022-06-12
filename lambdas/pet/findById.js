@@ -1,16 +1,13 @@
 const AWS = require('aws-sdk')
-const Responses = require('./Responses')
-
+const Response = require('./../Response')
+const Contants = require('./../Contants')
 
 module.exports.handler = async (event) => {
-
-    let response;
-
-    const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
     const petId = event.pathParameters.petId;
 
     if (!isNaN(petId)) {
+
         const findById = {
             TableName: process.env.DYNAMODB_TABLE_PETS,
             IndexName: 'id-index',
@@ -21,20 +18,21 @@ module.exports.handler = async (event) => {
             }
         }
 
+        const dynamoDb = new AWS.DynamoDB.DocumentClient();
         const res = await dynamoDb.query(findById).promise();
+
         if (res.Items.length > 0)
-            response = Responses.createResponse(200, res.Items)
+            return Response.createResponse(200, res.Items)
         else
-            response = Responses.createResponse(404, {
-                message: "Pet not found"
+            return Response.createResponse(404, {
+                message: Contants.PET_NOT_FOUND
             })
 
-
     } else {
-        response = Responses.createResponse(400, {
-            message: "Invalid ID supplied"
-        })
-    }
 
-    return response;
+        return Response.createResponse(400, {
+            message: Contants.INVALID_ID
+        })
+
+    }
 }

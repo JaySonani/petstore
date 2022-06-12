@@ -1,4 +1,4 @@
-const Responses = {
+const Response = {
     createResponse(statusCode = 200, data = {}) {
         return {
             statusCode: statusCode,
@@ -7,4 +7,4 @@ const Responses = {
     }
 }
 
-module.exports = Responses;
+module.exports = Response;

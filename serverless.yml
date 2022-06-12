@@ -43,46 +43,53 @@ functions:
           method: get
 
   addPet:
-    handler: lambdas/addPet.handler
+    handler: lambdas/pet/addPet.handler
     events:
       - httpApi:
           path: /pet
           method: post
 
   updatePet:
-    handler: lambdas/updatePet.handler
+    handler: lambdas/pet/updatePet.handler
     events:
       - httpApi:
           path: /pet
           method: put
 
   findByStatus:
-    handler: lambdas/findByStatus.handler
+    handler: lambdas/pet/findByStatus.handler
     events:
       - httpApi:
           path: /pet/findByStatus
           method: get
 
   findById:
-    handler: lambdas/findById.handler
+    handler: lambdas/pet/findById.handler
     events:
       - httpApi:
           path: /pet/{petId}
           method: get
 
   updatePetById:
-    handler: lambdas/updatePetById.handler
+    handler: lambdas/pet/updatePetById.handler
     events:
       - httpApi:
           path: /pet/{petId}
           method: post
 
   deletePet:
-    handler: lambdas/deletePet.handler
+    handler: lambdas/pet/deletePet.handler
     events:
       - httpApi:
           path: /pet/{petId}
           method: delete
+
+  placeOrder:
+    handler: lambdas/store/placeOrder.handler
+    events:
+      - httpApi:
+          path: /store/order
+          method: post
 
 # Resource creation
 resources:
@@ -114,3 +121,31 @@ resources:
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
+
+    OrderTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-ordersTable-${sls:stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: N
+          # - AttributeName: status
+          #   AttributeType: S
+
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        # GlobalSecondaryIndexes:
+        #   - IndexName: status-index
+        #     KeySchema:
+        #       - AttributeName: status
+        #         KeyType: HASH
+        #     Projection:
+        #       ProjectionType: ALL
+        #   - IndexName: id-index
+        #     KeySchema:
+        #       - AttributeName: id
+        #         KeyType: HASH
+        #     Projection:
+        #       ProjectionType: ALL
