@@ -70,6 +70,13 @@ functions:
           path: /pet/{petId}
           method: get
 
+  updatePetById:
+    handler: lambdas/updatePetById.handler
+    events:
+      - httpApi:
+          path: /pet/{petId}
+          method: post
+
 # Resource creation
 resources:
   Resources:
