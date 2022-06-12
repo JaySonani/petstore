@@ -9,7 +9,7 @@ module.exports.handler = async (event) => {
     let response;
 
 
-    if (body.id && body.category && body.photoURL && body.tags && body.status) {
+    if (body.id !== undefined && body.category !== undefined && body.name !== undefined && body.photoUrls !== undefined && body.tags !== undefined && body.status !== undefined) {
         const updatedPet = {
             TableName: process.env.DYNAMODB_TABLE_PETS,
             Key: {
@@ -17,16 +17,17 @@ module.exports.handler = async (event) => {
             },
             // ExpressionAttributeNames: {
             //     'category': 'category',
-            //     'photoURL': 'photoURL',
+            //     'photoUrls': 'photoUrls',
             //     'tags': 'tags',
             //     'status': 'status',
             // },
             UpdateExpression: "set category = :c",
-            // UpdateExpression: "set category = :c, photoURL = :p, tags = :t, status = :s",
+            // UpdateExpression: "set category = :c, name = :n, photoUrls = :p, tags = :t, status = :s",
 
             ExpressionAttributeValues: {
                 ":c": body.category,
-                // ":p": body.photoURL,
+                // ":n": body.name,
+                // ":p": body.photoUrls,
                 // ":t": body.tags,
                 // ":s": body.status
             }

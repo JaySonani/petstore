@@ -7,13 +7,15 @@ module.exports.handler = async (event) => {
 
     let response;
 
-    if (body.id && body.category && body.photoURL && body.tags && body.status) {
+    if (body.id !== undefined && body.category !== undefined && body.name !== undefined && body.photoUrls !== undefined && body.tags !== undefined && body.status !== undefined) {
+
         const newPet = {
             TableName: process.env.DYNAMODB_TABLE_PETS,
             Item: {
                 id: body.id,
                 category: body.category,
-                photoURL: body.photoURL,
+                name: body.name,
+                photoUrls: body.photoUrls,
                 tags: body.tags,
                 status: body.status,
             }
@@ -22,7 +24,7 @@ module.exports.handler = async (event) => {
         response = Responses.createResponse(200, body);
     } else {
         response = Responses.createResponse(405, {
-            message: "Invalid input"
+            message: "Invalid input",
         })
     }
     return response;
