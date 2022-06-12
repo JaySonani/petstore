@@ -7,17 +7,17 @@ module.exports.handler = async (event) => {
 
     let response;
 
-    if (body.id !== undefined && body.category !== undefined && body.name !== undefined && body.photoUrls !== undefined && body.tags !== undefined && body.status !== undefined) {
+    if (body.id !== undefined && body.petId !== undefined && body.quantity !== undefined && body.shipDate !== undefined && body.complete !== undefined) {
 
-        const newPet = {
-            TableName: process.env.DYNAMODB_TABLE_PETS,
+        const newOrder = {
+            TableName: process.env.DYNAMODB_TABLE_ORDERS,
             Item: {
                 id: body.id,
-                category: body.category,
-                name: body.name,
-                photoUrls: body.photoUrls,
-                tags: body.tags,
+                petId: body.petId,
+                quantity: body.quantity,
+                shipDate: body.shipDate,
                 status: body.status,
+                complete: body.complete,
             }
         }
         await dynamoDb.put(newPet).promise()

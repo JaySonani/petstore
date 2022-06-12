@@ -1,20 +1,17 @@
 const AWS = require('aws-sdk')
-const Responses = require('./Responses')
+const Response = require('./../Response')
+const Constants = require('./../Contants')
 
 module.exports.handler = async (event) => {
 
     const body = JSON.parse(event.body)
-    const petId = event.pathParameters.petId;
-
-    const dynamoDb = new AWS.DynamoDB.DocumentClient();
-
-    let response;
-
 
     if (body.name !== undefined && body.status !== undefined) {
 
+        const petId = event.pathParameters.petId;
+        const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-        const params = {
+        const updatedPet = {
             TableName: process.env.DYNAMODB_TABLE_PETS,
             Key: {
                 "id": parseInt(petId)
@@ -30,8 +27,7 @@ module.exports.handler = async (event) => {
             }
         };
 
-        const res = await dynamoDb.update(params).promise()
-
+        await dynamoDb.update(updatedPet).promise()
 
         const findById = {
             TableName: process.env.DYNAMODB_TABLE_PETS,
@@ -44,13 +40,13 @@ module.exports.handler = async (event) => {
         }
 
         const finalRes = await dynamoDb.query(findById).promise();
-        response = Responses.createResponse(200, finalRes.Items)
+        return Response.createResponse(200, finalRes.Items[0]);
 
     } else {
-        response = Responses.createResponse(405, {
-            message: "Invalid input"
-        })
-    }
 
-    return response;
+        return Response.createResponse(405, {
+            message: Constants.INVALID_INPUT,
+        })
+
+    }
 }
