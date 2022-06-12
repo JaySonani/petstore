@@ -15,30 +15,33 @@ module.exports.handler = async (event) => {
             Key: {
                 id: body.id
             },
-            // ExpressionAttributeNames: {
-            //     'category': 'category',
-            //     'photoUrls': 'photoUrls',
-            //     'tags': 'tags',
-            //     'status': 'status',
-            // },
-            UpdateExpression: "set category = :c",
-            // UpdateExpression: "set category = :c, name = :n, photoUrls = :p, tags = :t, status = :s",
+            // UpdateExpression: "set category = :c",
+            UpdateExpression: "set #category = :c, #name = :n, #photoUrls = :p, #tags = :t, #status = :s",
+            ExpressionAttributeNames: {
+                '#category': 'category',
+                '#name': 'name',
+                '#photoUrls': 'photoUrls',
+                '#tags': 'tags',
+                '#status': 'status',
+            },
 
             ExpressionAttributeValues: {
                 ":c": body.category,
-                // ":n": body.name,
-                // ":p": body.photoUrls,
-                // ":t": body.tags,
-                // ":s": body.status
+                ":n": body.name,
+                ":p": body.photoUrls,
+                ":t": body.tags,
+                ":s": body.status
             }
         }
+
+
         await dynamoDb.update(updatedPet).promise().then(
             async (res) => {
                 response = Responses.createResponse(200, body);
                 return response;
             }, (error) => {
                 response = Responses.createResponse(400, {
-                    message: error
+                    message: "Invalid ID supplied"
                 })
                 return response;
             }

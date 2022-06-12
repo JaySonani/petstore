@@ -77,6 +77,13 @@ functions:
           path: /pet/{petId}
           method: post
 
+  deletePet:
+    handler: lambdas/deletePet.handler
+    events:
+      - httpApi:
+          path: /pet/{petId}
+          method: delete
+
 # Resource creation
 resources:
   Resources:
