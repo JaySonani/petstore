@@ -1,31 +1,27 @@
 const AWS = require('aws-sdk')
-const Responses = require('./Responses')
+const Response = require('./../Response')
+const Constants = require('./../Contants')
 
 module.exports.handler = async (event) => {
+
     const body = JSON.parse(event.body)
-    const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-    let response;
-
-    if (body.id !== undefined && body.petId !== undefined && body.quantity !== undefined && body.shipDate !== undefined && body.complete !== undefined) {
-
-        const newOrder = {
-            TableName: process.env.DYNAMODB_TABLE_ORDERS,
-            Item: {
-                id: body.id,
-                petId: body.petId,
-                quantity: body.quantity,
-                shipDate: body.shipDate,
-                status: body.status,
-                complete: body.complete,
-            }
+    for (let item in Constants.ORDER_PROPERTIES) {
+        if (!(Constants.ORDER_PROPERTIES[item] in body)) {
+            return Response.createResponse(400, {
+                message: Constants.INVALID_ORDER,
+            })
         }
-        await dynamoDb.put(newPet).promise()
-        response = Responses.createResponse(200, body);
-    } else {
-        response = Responses.createResponse(405, {
-            message: "Invalid input",
-        })
     }
-    return response;
+
+    const { id, petId, quantity, shipDate, status, complete } = body;
+
+    const newOrder = {
+        TableName: process.env.DYNAMODB_TABLE_ORDERS,
+        Item: { id, petId, quantity, shipDate, status, complete }
+    }
+
+    const dynamoDb = new AWS.DynamoDB.DocumentClient();
+    await dynamoDb.put(newOrder).promise()
+    return Response.createResponse(200, body);
 }

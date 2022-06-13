@@ -11,6 +11,7 @@ provider:
   # Setting environment variables
   environment:
     DYNAMODB_TABLE_PETS: ${self:service}-petsTable-${sls:stage}
+    DYNAMODB_TABLE_ORDERS: ${self:service}-ordersTable-${sls:stage}
 
   # Granting permissions
   iam:
@@ -31,6 +32,8 @@ provider:
           Resource:
             - arn:aws:dynamodb:us-east-1:359996502019:table/plasmatic-project-petsTable-dev
             - arn:aws:dynamodb:us-east-1:359996502019:table/plasmatic-project-petsTable-dev/index/*
+            - arn:aws:dynamodb:us-east-1:359996502019:table/plasmatic-project-ordersTable-dev
+            - arn:aws:dynamodb:us-east-1:359996502019:table/plasmatic-project-ordersTable-dev/index/*
             # arn:aws:dynamodb:${aws.region}:${aws:accountId}:table/${self:service}-petsTable-${sls:stage}
 
 # API Endpoints
@@ -91,6 +94,27 @@ functions:
           path: /store/order
           method: post
 
+  findOrderById:
+    handler: lambdas/store/findOrderById.handler
+    events:
+      - httpApi:
+          path: /store/order/{orderId}
+          method: get
+
+  deleteOrder:
+    handler: lambdas/store/deleteOrder.handler
+    events:
+      - httpApi:
+          path: /store/order/{orderId}
+          method: delete
+
+  petInventory:
+    handler: lambdas/store/petInventory.handler
+    events:
+      - httpApi:
+          path: /store/inventory
+          method: get
+
 # Resource creation
 resources:
   Resources:
@@ -136,16 +160,10 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-        # GlobalSecondaryIndexes:
-        #   - IndexName: status-index
-        #     KeySchema:
-        #       - AttributeName: status
-        #         KeyType: HASH
-        #     Projection:
-        #       ProjectionType: ALL
-        #   - IndexName: id-index
-        #     KeySchema:
-        #       - AttributeName: id
-        #         KeyType: HASH
-        #     Projection:
-        #       ProjectionType: ALL
+        GlobalSecondaryIndexes:
+          - IndexName: id-index
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
