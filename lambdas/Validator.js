@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const schema = Joi.object({
+const pet = Joi.object({
     id: Joi.number(),
     name: Joi.string(),
     category: {
@@ -15,4 +15,22 @@ const schema = Joi.object({
     status: Joi.string()
 })
 
-module.exports = schema;
+const updatingPet = Joi.object({
+    name: Joi.string(),
+    status: Joi.string()
+})
+
+const status = Joi.object({
+    status: Joi.string().required()
+})
+
+const petId = Joi.object({
+    petId: Joi.number().required()
+})
+
+module.exports = {
+    pet,
+    updatingPet,
+    status,
+    petId
+}

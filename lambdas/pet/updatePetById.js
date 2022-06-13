@@ -1,16 +1,16 @@
 const AWS = require('aws-sdk')
 const Response = require('./../Response')
 const Constants = require('./../Contants')
-const UpdatePetSchema = require('./../schema/updatePetSchema')
+const Validator = require('./../Validator')
 
 
 module.exports.handler = async (event) => {
 
     const body = JSON.parse(event.body)
 
-    const { error } = await UpdatePetSchema.validate(body);
+    const { error } = await Validator.updatingPet.validate(body);
 
-    if (error !== undefined) {
+    if (error) {
         return Response.createResponse(405, {
             message: Constants.INVALID_INPUT,
         })
