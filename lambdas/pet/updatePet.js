@@ -1,17 +1,18 @@
 const AWS = require('aws-sdk')
 const Response = require('./../Response')
 const Constants = require('./../Contants')
+const PetSchema = require('./../schema/petSchema')
 
 module.exports.handler = async (event) => {
 
     const body = JSON.parse(event.body)
 
-    for (let item in Constants.PET_PROPERTIES) {
-        if (!(Constants.PET_PROPERTIES[item] in body)) {
-            return Response.createResponse(405, {
-                message: Constants.INVALID_INPUT,
-            })
-        }
+    const { error } = await PetSchema.validate(body);
+
+    if (error !== undefined) {
+        return Response.createResponse(405, {
+            message: Constants.INVALID_INPUT,
+        })
     }
 
     const { id, category, name, photoUrls, tags, status } = body;

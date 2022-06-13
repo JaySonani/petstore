@@ -4,6 +4,7 @@ const Constants = require('./../Contants')
 
 module.exports.handler = async (event) => {
 
+    // TODO: Validation with Joi
     if (event.queryStringParameters !== undefined && event.queryStringParameters.status !== undefined) {
 
         const dynamoDb = new AWS.DynamoDB.DocumentClient();

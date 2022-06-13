@@ -4,6 +4,7 @@ const Constants = require('./../Contants')
 
 module.exports.handler = async (event) => {
 
+    // TODO: Validate id with Joi
     const petId = event.pathParameters.petId;
 
     if (!isNaN(petId)) {
