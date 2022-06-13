@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk')
 const Response = require('./../Response')
 const Constants = require('./../Contants')
+const findByStatusSchema = require('./../schema/findPetByStatusSchema')
 
 module.exports.handler = async (event) => {
 

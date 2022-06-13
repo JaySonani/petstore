@@ -8,7 +8,7 @@ module.exports.handler = async (event) => {
 
     const body = JSON.parse(event.body)
 
-    const { error } = await PetSchema.validate(body);
+    const { error } = await UpdatePetSchema.validate(body);
 
     if (error !== undefined) {
         return Response.createResponse(405, {
