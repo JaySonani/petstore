@@ -108,6 +108,13 @@ functions:
           path: /store/order/{orderId}
           method: delete
 
+  petInventory:
+    handler: lambdas/store/petInventory.handler
+    events:
+      - httpApi:
+          path: /store/inventory
+          method: get
+
 # Resource creation
 resources:
   Resources:
