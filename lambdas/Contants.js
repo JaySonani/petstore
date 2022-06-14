@@ -15,7 +15,7 @@ module.exports = {
     ORDER_PROPERTIES,
     PET_NOT_FOUND,
     INVALID_ORDER,
-    ORDER_NOT_FOUND
+    ORDER_NOT_FOUND,
 }
 
 
