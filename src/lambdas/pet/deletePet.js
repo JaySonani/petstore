@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk')
-const Response = require('./../Response')
-const Constants = require('./../Contants')
-const Validator = require('./../Validator')
+const Response = require('../../Response')
+const Constants = require('../../Constants')
+const Validator = require('../../Validator')
 
 module.exports.handler = async (event) => {
 

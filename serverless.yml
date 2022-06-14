@@ -46,70 +46,70 @@ functions:
           method: get
 
   addPet:
-    handler: lambdas/pet/addPet.handler
+    handler: src/lambdas/pet/addPet.handler
     events:
       - httpApi:
           path: /pet
           method: post
 
   updatePet:
-    handler: lambdas/pet/updatePet.handler
+    handler: src/lambdas/pet/updatePet.handler
     events:
       - httpApi:
           path: /pet
           method: put
 
   findByStatus:
-    handler: lambdas/pet/findByStatus.handler
+    handler: src/lambdas/pet/findByStatus.handler
     events:
       - httpApi:
           path: /pet/findByStatus
           method: get
 
   findPetById:
-    handler: lambdas/pet/findPetById.handler
+    handler: src/lambdas/pet/findPetById.handler
     events:
       - httpApi:
           path: /pet/{petId}
           method: get
 
   updatePetById:
-    handler: lambdas/pet/updatePetById.handler
+    handler: src/lambdas/pet/updatePetById.handler
     events:
       - httpApi:
           path: /pet/{petId}
           method: post
 
   deletePet:
-    handler: lambdas/pet/deletePet.handler
+    handler: src/lambdas/pet/deletePet.handler
     events:
       - httpApi:
           path: /pet/{petId}
           method: delete
 
   placeOrder:
-    handler: lambdas/store/placeOrder.handler
+    handler: src/lambdas/store/placeOrder.handler
     events:
       - httpApi:
           path: /store/order
           method: post
 
   findOrderById:
-    handler: lambdas/store/findOrderById.handler
+    handler: src/lambdas/store/findOrderById.handler
     events:
       - httpApi:
           path: /store/order/{orderId}
           method: get
 
   deleteOrder:
-    handler: lambdas/store/deleteOrder.handler
+    handler: src/lambdas/store/deleteOrder.handler
     events:
       - httpApi:
           path: /store/order/{orderId}
           method: delete
 
   petInventory:
-    handler: lambdas/store/petInventory.handler
+    handler: src/lambdas/store/petInventory.handler
     events:
       - httpApi:
           path: /store/inventory

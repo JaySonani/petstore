@@ -1,6 +1,5 @@
 const AWS = require('aws-sdk')
-const Response = require('./../Response')
-const Contants = require('./../Contants')
+const Response = require('../../Response')
 
 module.exports.handler = async (event) => {
 
