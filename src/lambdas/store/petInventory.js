@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk')
+const Log = require('lambda-log')
 const Response = require('../../Response')
 
 module.exports.handler = async (event) => {
@@ -33,6 +34,6 @@ module.exports.handler = async (event) => {
                 response[uniqueStatus[status]] += 1
         }
     }
-
+    Log.info("Inventory retrieved successfully")
     return Response.createResponse(200, response);
 }
