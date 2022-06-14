@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { assert } = require('joi');
+const Log = require('lambda-log')
 
 // test case for add pet
 test('add pet', async () => {
@@ -33,10 +33,14 @@ test('add pet', async () => {
         data: testBody
     };
     try {
+        Log.info("Test case for valid body")
+
         const res = await axios(config);
         expect(res.status).toBe(200)
         expect(res.data).toEqual(JSON.parse(testBody))
     } catch (error) {
+        Log.info("Test case for invalid body")
+
         expect(error.response.status).toBe(405)
         expect(error.response.data.message).toBe("Invalid input")
     }
