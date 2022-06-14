@@ -1,24 +1,19 @@
 const AWS = require('aws-sdk')
-const Response = require('./../Response')
-const Contants = require('./../Contants')
-const Validator = require('./../Validator')
+const Response = require('../Response')
+const Contants = require('../Contants')
+const Validator = require('../Validator')
 
 module.exports.handler = async (event) => {
 
-    // TODO: Validate ID with Joi
     const petId = event.pathParameters.petId;
 
-    const { error } = await Validator.petId.validate(petId);
+    const { error } = Validator.petId.validate({ petId } ?? {});
 
     if (error) {
         return Response.createResponse(400, {
-            message: Contants.INVALID_ID
+            message: Contants.INVALID_ID,
         })
     }
-
-
-
-    // if (!isNaN(petId)) {
 
     const findById = {
         TableName: process.env.DYNAMODB_TABLE_PETS,
@@ -39,12 +34,4 @@ module.exports.handler = async (event) => {
         return Response.createResponse(404, {
             message: Contants.PET_NOT_FOUND
         })
-
-    // } else {
-
-    //     return Response.createResponse(400, {
-    //         message: Contants.INVALID_ID
-    //     })
-
-    // }
 }

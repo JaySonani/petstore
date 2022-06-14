@@ -66,8 +66,8 @@ functions:
           path: /pet/findByStatus
           method: get
 
-  findById:
-    handler: lambdas/pet/findById.handler
+  findPetById:
+    handler: lambdas/pet/findPetById.handler
     events:
       - httpApi:
           path: /pet/{petId}

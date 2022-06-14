@@ -28,9 +28,24 @@ const petId = Joi.object({
     petId: Joi.number().required()
 })
 
+const order = Joi.object({
+    id: Joi.number(),
+    petId: Joi.number(),
+    quantity: Joi.number(),
+    shipDate: Joi.date(),
+    status: Joi.string(),
+    complete: Joi.boolean()
+})
+
+const orderId = Joi.object({
+    orderId: Joi.number().required()
+})
+
 module.exports = {
     pet,
     updatingPet,
     status,
-    petId
+    petId,
+    order,
+    orderId
 }

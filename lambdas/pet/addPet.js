@@ -7,7 +7,7 @@ module.exports.handler = async (event) => {
 
     const body = JSON.parse(event.body)
 
-    const { error } = await Validator.pet.validate(body);
+    const { error } = Validator.pet.validate(body);
 
     if (error) {
         return Response.createResponse(405, {

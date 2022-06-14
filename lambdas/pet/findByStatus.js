@@ -5,7 +5,7 @@ const Validator = require('./../Validator')
 
 module.exports.handler = async (event) => {
 
-    const { error } = await Validator.status.validate(event.queryStringParameters ?? {});
+    const { error } = Validator.status.validate(event.queryStringParameters ?? {});
 
     if (error) {
         return Response.createResponse(400, {
